@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>How Are You Feeling?</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+            background-image: url("memee.svg");
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #302344;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 25px;
+            margin-bottom: 35px;
+        }
+
+        .moods {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .mood-button {
+            border: none;
+
+            padding: 25px 45px;
+
+            border-radius: 70px;
+
+            background: rgb(255, 68, 130);
+
+            color: #1c1b1b;
+
+            font-size: 19px;
+
+            font-weight: bold;
+            font-family: Calibri, sans-serif;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .mood-button:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .mood-button.active {
+            background: #6c4cc4;
+            color: white;
+        }
+
+        #imageSection {
+            display: none;
+        }
+
+        #imageSection.show {
+            display: block;
+        }
+
+        .image-container {
+            width: auto;
+            max-width: auto;
+            height: auto;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 12px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        #moodImage {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            border-radius: 18px;
+
+            transition: opacity 0.3s;
+        }
+
+        .image-title {
+            margin-top: 20px;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            color: #302344;
+        }
+
+        .image-counter {
+            margin-top: 8px;
+
+            color: #888;
+
+            font-size: 14px;
+        }
+
+        .next-button {
+            margin-top: 20px;
+
+            padding: 13px 25px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: #302344;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .next-button:hover {
+            background: #6c4cc4;
+
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+
+            h1 {
+                font-size: 34px;
+            }
+
+            .image-container {
+                height: 300px;
+            }
+
+            .mood-button {
+                padding: 12px 18px;
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <p class="subtitle">
+        Choose a mood to explore the meme world :)
+    </p>
+
+
+    <div class="moods">
+
+
+        <button
+            class="mood-button"
+            onclick="selectMood('lazy', this)"
+        >
+            Lazy -.-
+        </button>
+
+
+        <button
+            class="mood-button"
+            onclick="selectMood('happy', this)"
+        >
+            Happy :D
+        </button>
+
+
+        <button
+            class="mood-button"
+            onclick="selectMood('bored', this)"
+        >
+            Bored ._.
+        </button>
+
+
+        <button
+            class="mood-button"
+            onclick="selectMood('sad', this)"
+        >
+            Sad :(
+        </button>
+
+
+        <button
+            class="mood-button"
+            onclick="selectMood('angry', this)"
+        >
+            Angry -_-
+        </button>
+
+
+    </div>
+
+
+    <div id="imageSection">
+
+
+        <div class="image-container">
+
+            <img
+                id="moodImage"
+                src=""
+                alt="Mood image"
+            >
+
+        </div>
+
+
+        <div
+            id="imageTitle"
+            class="image-title">
+        </div>
+
+
+        <div
+            id="imageCounter"
+            class="image-counter">
+        </div>
+
+
+        <button
+            class="next-button"
+            onclick="nextImage()"
+        >
+            Show me another one →
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* ============================================
+   ALL 10 IMAGES FOR EACH MOOD
+   ============================================ */
+
+const moods = {
+
+    lazy: [
+        "images/lazy/lazy 1.jpg",
+        "images/lazy/lazy 2.jpg",
+        "images/lazy/lazy 3.jpg",
+        "images/lazy/lazy 4.jpg",
+        "images/lazy/lazy 5.jpg",
+        "images/lazy/lazy 6.jpg",
+        "images/lazy/lazy 7.jpg",
+        "images/lazy/lazy 8.jpg",
+        "images/lazy/lazy 9.jpg",
+        "images/lazy/lazy 10.jpg"
+    ],
+
+    happy: [
+        "images/happy/happy 1.jpg",
+        "images/happy/happy 2.jpg",
+        "images/happy/happy 3.jpg",
+        "images/happy/happy 4.jpg",
+        "images/happy/happy 5.jpg",
+        "images/happy/happy 6.jpg",
+        "images/happy/happy 7.jpg",
+        "images/happy/happy 8.jpg",
+        "images/happy/happy 9.jpg",
+        "images/happy/happy 10.jpg"
+    ],
+
+    bored: [
+        "images/bored/bored 1.jpg",
+        "images/bored/bored 2.jpg",
+        "images/bored/bored 3.jpg",
+        "images/bored/bored 4.jpg",
+        "images/bored/bored 5.jpg",
+        "images/bored/bored 6.jpg",
+        "images/bored/bored 7.jpg",
+        "images/bored/bored 8.jpg",
+        "images/bored/bored 9.jpg",
+        "images/bored/bored 10.jpg"
+    ],
+
+    sad: [
+        "images/sad/sad 1.jpg",
+        "images/sad/sad 2.jpg",
+        "images/sad/sad 3.jpg",
+        "images/sad/sad 4.jpg",
+        "images/sad/sad 5.jpg",
+        "images/sad/sad 6.jpg",
+        "images/sad/sad 7.jpg",
+        "images/sad/sad 8.jpg",
+        "images/sad/sad 9.jpg",
+        "images/sad/sad 10.jpg"
+    ],
+
+    angry: [
+        "images/angry/angry 1.jpg",
+        "images/angry/angry 2.jpg",
+        "images/angry/angry 3.jpg",
+        "images/angry/angry 4.jpg",
+        "images/angry/angry 5.jpg",
+        "images/angry/angry 6.jpg",
+        "images/angry/angry 7.jpg",
+        "images/angry/angry 8.jpg",
+        "images/angry/angry 9.jpg",
+        "images/angry/angry 10.jpg"
+    ]
+
+};
+
+
+/* ============================================
+   VARIABLES
+   ============================================ */
+
+let currentMood = "";
+let currentImage = 0;
+
+
+/* ============================================
+   SELECT MOOD
+   ============================================ */
+
+function selectMood(mood, button) {
+
+    currentMood = mood;
+
+    currentImage = 0;
+
+
+    // Remove active state
+    document
+        .querySelectorAll(".mood-button")
+        .forEach(function(btn) {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    // Add active state
+    button.classList.add("active");
+
+
+    // Show image section
+    document
+        .getElementById("imageSection")
+        .classList.add("show");
+
+
+    // Display image
+    showImage();
+
+}
+
+
+/* ============================================
+   DISPLAY IMAGE
+   ============================================ */
+
+function showImage() {
+
+    const image =
+        document.getElementById("moodImage");
+
+
+    const imageList =
+        moods[currentMood];
+
+
+    const imagePath =
+        imageList[currentImage];
+
+
+    console.log(
+        "Loading image:",
+        imagePath
+    );
+
+
+    image.src = imagePath;
+
+
+    // If image loads successfully
+    image.onload = function() {
+
+        console.log(
+            "SUCCESS:",
+            imagePath
+        );
+
+    };
+
+
+    // If image doesn't load
+    image.onerror = function() {
+
+        console.error(
+            "ERROR: Could not load",
+            imagePath
+        );
+
+    };
+
+
+    // Mood title
+    const moodName =
+        currentMood.charAt(0).toUpperCase()
+        + currentMood.slice(1);
+
+
+    document
+        .getElementById("imageTitle")
+        .innerText =
+        "Feeling " + moodName + "?";
+
+
+    // Image counter
+    document
+        .getElementById("imageCounter")
+        .innerText =
+        "Image "
+        + (currentImage + 1)
+        + " of "
+        + imageList.length;
+
+}
+
+
+/* ============================================
+   NEXT IMAGE
+   ============================================ */
+
+function nextImage() {
+
+    if (!currentMood) {
+        return;
+    }
+
+
+    const imageList =
+        moods[currentMood];
+
+
+    currentImage++;
+
+
+    // Go back to first image
+    // after reaching the end
+
+    if (
+        currentImage >= imageList.length
+    ) {
+
+        currentImage = 0;
+
+    }
+
+
+    showImage();
+
+}
+
+</script>
+
+
+</body>
+
+</html>
